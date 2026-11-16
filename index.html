@@ -58,6 +58,23 @@ footer{text-align:center;color:var(--muted);padding:20px}
 footer a{color:var(--pink);font-weight:700}
 #rg{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border:2px solid var(--pink);border-radius:50%;pointer-events:none;z-index:60;transition:width .2s,height .2s,margin .2s,background .2s;display:none}@media(hover:hover) and (pointer:fine){#rg{display:block}}#rg.big{width:56px;height:56px;margin:-28px 0 0 -28px;background:rgba(255,79,154,.18)}
 @media(prefers-reduced-motion:reduce){.rv{translate:none;opacity:1;transition:none}.w{animation:none;opacity:1;translate:none}#rg{display:none!important}}
+main{overflow-x:clip}
+.ph{aspect-ratio:4/3;border-radius:16px;background:var(--pink2);display:grid;place-items:center;overflow:hidden;font-size:2.6rem;margin-bottom:8px}.ph img{width:100%;height:100%;object-fit:cover}
+.asym>.rv:nth-child(even){transition-delay:.08s}
+@media(max-width:640px){
+h1{font-size:2.1rem}main{padding:14px 12px 50px}
+.hero{padding:14px 0 18px;gap:4px}.hero .hm{width:130px;justify-self:end;margin-top:-6px;rotate:3deg}
+.fill{margin:26px 0 12px;font-size:1.45rem}
+.asym{grid-template-columns:repeat(2,1fr);gap:12px}
+.asym>.rv:nth-child(n){grid-column:auto;rotate:0deg;--oy:0px;margin:0}
+.asym>.rv:nth-child(odd){--tx:-24px;rotate:-.8deg}.asym>.rv:nth-child(even){--tx:24px;rotate:.8deg;margin-top:16px}
+.card{padding:12px;border-radius:18px}.prod h3{font-size:1rem}.ph{font-size:2rem;border-radius:12px}
+.logo{font-size:1.1rem}.bar{padding:6px 10px}
+}
+@media(min-width:641px){.asym{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}.asym>.rv:nth-child(n){grid-column:auto;rotate:0deg;--oy:0px;margin:0}.asym>.rv:nth-child(odd){--tx:-30px}.asym>.rv:nth-child(even){--tx:30px;margin-top:12px}}
+@media(max-width:640px){.asym>.rv:nth-child(n){rotate:0deg;margin:0;--oy:0px}.asym>.rv:nth-child(odd){--tx:-16px}.asym>.rv:nth-child(even){--tx:16px}}
+@media(min-width:641px){.asym{grid-template-columns:repeat(6,1fr);gap:16px}.asym>.rv:nth-child(n){grid-column:span 2;rotate:0deg;margin:0;--oy:0px}.asym>.rv:nth-child(4n+1),.asym>.rv:nth-child(4n){grid-column:span 4}.asym>.rv:nth-child(odd){--tx:-30px}.asym>.rv:nth-child(even){--tx:30px}}
+@media(max-width:640px){.asym{grid-template-columns:repeat(2,1fr)}.asym>.rv:nth-child(n){rotate:0deg;margin:0;--oy:0px}.asym>.rv:nth-child(4n+1),.asym>.rv:nth-child(4n){grid-column:span 2!important}.asym>.rv:nth-child(odd){--tx:-16px}.asym>.rv:nth-child(even){--tx:16px}}
 </style>
 </head>
 <body>
@@ -82,6 +99,8 @@ var ZAP = "5581983371014";            // WhatsApp da loja com DDI+DDD, ex.: 5581
 var PIX = "";            // Chave Pix da loja
 var INSTA = "happysweeett";          // Instagram da loja, só o nome de usuário, ex.: happysweet
 var PRECOS = {copos:14, minivulcao:16, vulcao:40, brownie:10, coxinha:0};
+var FOTOS = {}; // fotos dos produtos, ex.: "copos|Abacaxi":"fotos/abacaxi.jpg"
+function ph(p){var u=FOTOS[p.cat+"|"+p.nome];return '<div class="ph">'+(u?'<img src="'+esc(u)+'" alt="'+esc(p.nome)+'" loading="lazy">':CATS[p.cat].e)+'</div>'}
 var PX = {"copos|Abacaxi":12,"copos|Maracujá Branco":12,"copos|Maracujá Preto":12,"coxinha|Carne de Sol":10,"coxinha|Charque":10,"coxinha|Costela":12,"coxinha|Frango":7,"coxinha|Frango com Catupiry":8,"coxinha|Frango com Cream Cheese":10}; // preço por unidade (0 = a combinar)
 // ============================
 var CATS = {
@@ -110,11 +129,11 @@ var flash="";
 function adr(u){u=u||{};return '<div class="row"><div><label>Rua</label><input name="rua" value="'+esc(u.rua||"")+'"></div><div><label>Número</label><input name="num" value="'+esc(u.num||"")+'"></div></div><div class="row"><div><label>Bairro</label><input name="bairro" value="'+esc(u.bairro||"")+'"></div><div><label>Complemento</label><input name="comp" value="'+esc(u.comp||"")+'"></div></div><label>Ponto de referência</label><input name="ref" value="'+esc(u.ref||"")+'">'}
 function setQ(id,d){if(!user){flash="Crie sua conta para começar a pedir 💖";location.hash="conta";return}cart[id]=Math.max(0,(cart[id]||0)+d);sv("hs_cart",cart);route(true)}
 
-function card(p){var q=cart[p.id]||0;return '<div class="card prod rv"><span class="em">'+CATS[p.cat].e+'</span><h3>'+esc(p.nome)+'</h3><span class="muted">'+CATS[p.cat].t+'</span><span class="price">'+pr(p)+'</span><div class="qty"><button data-a="m" data-id="'+p.id+'" aria-label="Remover">−</button><b>'+q+'</b><button data-a="p" data-id="'+p.id+'" aria-label="Adicionar">+</button></div></div>'}
+function card(p){var q=cart[p.id]||0;return '<div class="card prod rv">'+ph(p)+'<h3>'+esc(p.nome)+'</h3><span class="muted">'+CATS[p.cat].t+'</span><span class="price">'+pr(p)+'</span><div class="qty"><button data-a="m" data-id="'+p.id+'" aria-label="Remover">−</button><b>'+q+'</b><button data-a="p" data-id="'+p.id+'" aria-label="Adicionar">+</button></div></div>'}
 function catPage(g){return GROUP[g].map(function(c){return '<h2 class="sec">'+CATS[c].e+' '+CATS[c].t+'</h2><div class="grid asym">'+Object.keys(PROD).filter(function(k){return PROD[k].cat===c}).map(function(k){return card(PROD[k])}).join("")+'</div>'}).join("")+(count()?'<p style="text-align:center;margin-top:24px"><a class="btn" href="#carrinho">Ver carrinho ('+count()+')</a></p>':"")}
 
 function inicio(){return '<section class="hero"><canvas id="sp"></canvas><div><h1>'+words("Doce que abraça, crocante que conquista")+'</h1><p class="muted rv">Copos da felicidade, vulcões, brownies e coxinhas artesanais, entregues na sua porta.</p><a class="btn" href="#copos">Ver cardápio</a></div>'+mas("hm")+'</section><p class="fill" id="fl">'+fillw("Cada copo, cada vulcão e cada coxinha sai da nossa cozinha artesanal com muito carinho.")+'</p><h2 class="sec rv">Escolha seu mimo</h2><div class="grid asym">'+
- Object.keys(GROUP).map(function(g){var c=GROUP[g][0];return '<a class="card tile rv" href="#'+g+'"><span class="em">'+CATS[c].e+'</span><h3>'+PAGES[g]+'</h3></a>'}).join("")+
+ Object.keys(GROUP).map(function(g){var c=GROUP[g][0];return '<a class="card tile rv" href="#'+g+'"><div class="ph">'+CATS[c].e+'</div><h3>'+PAGES[g]+'</h3></a>'}).join("")+
  '</div><h2 class="sec rv">Como pedir</h2><div class="grid asym">'+["Crie sua conta","Escolha os produtos","Informe o endereço e pague","Confirmamos pelo ZAP"].map(function(t,i){return '<div class="card rv"><b class="price">'+(i+1)+'</b><h3>'+t+'</h3></div>'}).join("")+'</div>'}
 
 function carrinho(){var l=items();if(!l.length)return '<h2>Seu carrinho</h2><div class="card">Está vazio por enquanto 🧁<p><a class="btn" href="#copos">Escolher produtos</a></p></div>';
