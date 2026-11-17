@@ -10,7 +10,7 @@
 :root{--bg:#fff8f9;--card:#fff;--ink:#4c0519;--txt:#44403c;--muted:#78716c;--pink:#f43f5e;--pink2:#ffe4e6;--line:#ffe4e6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0f1d;--card:#3a1628;--ink:#ffe6f1;--txt:#f5d5e3;--muted:#e7a9c6;--pink:#ff6b8a;--pink2:#5a2040;--line:#5b2442;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#2a0f1d;--card:#3a1628;--ink:#ffe6f1;--txt:#f5d5e3;--muted:#e7a9c6;--pink:#ff6b8a;--pink2:#5a2040;--line:#5b2442;color-scheme:dark}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:130px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:150px}
 body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 "Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--card)}
 h1,h2,h3,.lt,.pr{font-family:"Playfair Display",Georgia,serif;color:var(--ink);margin:0;line-height:1.15}
@@ -21,7 +21,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:31;background:co
 .logo{display:flex;align-items:center;gap:9px;text-decoration:none;margin-right:auto}.lg{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#fda4af);display:grid;place-items:center;color:#fff;font-size:1.2rem}
 .logo>span:last-child{display:flex;flex-direction:column;line-height:1}.lt{font-weight:700;font-size:1.55rem}.logo small{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);font-weight:700}
 .mn{display:flex;gap:2px;order:5;flex-basis:100%;overflow-x:auto;scrollbar-width:none}.mn a{padding:6px 9px;border-radius:99px;text-decoration:none;font-weight:500;white-space:nowrap;color:var(--txt)}.mn a:hover{background:var(--pink2);color:var(--pink)}
-@media(min-width:1300px){.mn{order:0;flex-basis:auto;margin:0 auto}.logo{margin-right:0}}
+@media(min-width:900px){.mn{justify-content:center}}
 .ib,.tg{border:0;background:var(--pink2);border-radius:12px;width:40px;height:40px;font-size:1.1rem}
 .wa{display:grid;place-items:center;width:40px;height:40px;border:1px solid #86efac;background:#f0fdf4;border-radius:12px;text-decoration:none;font-size:1.1rem}
 .sb{display:flex;align-items:center;gap:6px;border:0;background:var(--pink);color:#fff;border-radius:99px;padding:9px 18px;font-weight:700;box-shadow:0 8px 20px -8px rgba(244,63,94,.7)}.sb i{background:#fff;color:var(--pink);border-radius:99px;font-style:normal;font-size:.75rem;padding:0 7px;min-width:20px;text-align:center}
@@ -65,7 +65,7 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 .ov{position:fixed;inset:0;background:rgba(40,10,20,.45);z-index:50;opacity:0;pointer-events:none;transition:.3s}.ov.on{opacity:1;pointer-events:auto}
 .dr{position:fixed;top:0;right:0;bottom:0;width:min(450px,100%);background:var(--card);z-index:51;transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 50px rgba(0,0,0,.2);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}.dr.open{transform:none}
 .dh{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}.x{border:0;background:var(--pink2);width:36px;height:36px;border-radius:50%;color:var(--ink)}
-.db{flex:1;overflow:auto;padding:16px 18px}.df{padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:8px}.df[hidden],.db [hidden]{display:none}
+.db{flex:1;min-height:0;overflow:auto;padding:16px 18px}.df{padding:14px 18px;border-top:1px solid var(--line);display:grid;gap:8px}.df[hidden],.db [hidden]{display:none}
 .emp{text-align:center;display:grid;gap:10px;justify-items:center;padding:30px 0}.emp svg{width:90px;height:100px}
 .it{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}.it .ph{aspect-ratio:1;border-radius:12px;font-size:1.4rem}.it small{color:var(--muted)}
 .ln{display:flex;justify-content:space-between;gap:10px;padding:4px 0}.tot{font-size:1.15rem;color:var(--ink);font-weight:800}.lk{background:none;border:0;color:var(--muted);text-decoration:underline;font-size:.85rem}
@@ -76,6 +76,7 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 @media(prefers-reduced-motion:reduce){.rv{translate:none;opacity:1;transition:none}.w{animation:none;opacity:1;translate:none}#rg{display:none!important}html{scroll-behavior:auto}}
 @media(max-width:700px){.cn,.st,.logo small{display:none}.lt{font-size:1.3rem}.lg{width:36px;height:36px}.ann{font-size:.7rem}.chip small{display:none}.chip{padding:4px}.sb{padding:9px 14px}}
 @media(max-width:560px){.dest{top:36px;right:auto;left:10px}.pr{font-size:1.05rem}.qty button{width:26px;height:26px}.qty{gap:4px}.tag{font-size:.64rem;padding:2px 8px}}
+.pixb{display:grid;gap:8px;justify-items:center;text-align:center}.pxq{width:150px;height:150px;border-radius:14px;object-fit:cover;background:var(--card)}.ph0{border:2px dashed var(--pink);display:grid;place-items:center;color:var(--muted);font-size:.8rem;padding:8px}
 </style>
 </head>
 <body>
@@ -84,7 +85,7 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 <div class="ann" id="an"></div>
 <div class="bar">
 <a class="logo" href="#inicio"><span class="lg">♥</span><span><b class="lt">Happy Sweet</b><small>Doces &amp; Salgados Finos</small></span></a>
-<nav class="mn"><a href="#inicio">Início</a><a href="#favoritos">Favoritos</a><a href="#salgados">Salgados</a><a href="#doces">Doces</a><a href="#minivulcoes">Mini Vulcões</a><a href="#vulcao1kg">Vulcão 1 kg</a><a href="#sobre">Sobre Nós</a><a href="#contato">Contato</a></nav>
+<nav class="mn"><a href="#inicio">Início</a><a href="#favoritos">Favoritos</a><a href="#salgados">Salgados</a><a href="#doces">Copos</a><a href="#brownies">Brownies</a><a href="#minivulcoes">Mini Vulcões</a><a href="#vulcao1kg">Vulcão 1 kg</a><a href="#sobre">Sobre Nós</a><a href="#contato">Contato</a></nav>
 <button class="ib" data-a="busca" aria-label="Pesquisar">🔍</button>
 <a class="wa" id="wa" target="_blank" rel="noopener" aria-label="WhatsApp">📞</a>
 <button class="tg" id="tg" data-a="tema" aria-label="Mudar tema"></button>
@@ -135,7 +136,7 @@ var IMGC={coxinha:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHCA
 // ============================
 var CATS={copos:{t:"Copos da Felicidade",e:"🥤",n:["Abacaxi","Maracujá Branco","Maracujá Preto","Brownie","Bombom de Morango"]},minivulcao:{t:"Mini Vulcão",e:"🌋",n:["Maracujá","Ninho com Nutella","Ninho","Chocolate com Nutella","Brincadeira","Bem Casado","Delícia de Abacaxi","Geleia de Morango"]},vulcao:{t:"Vulcão de 1 kg",e:"🍰",n:["Bem Casado","Chocolate","Ninho"]},brownie:{t:"Brownie",e:"🍫",n:["Bem Casado","Brigadeiro"]},coxinha:{t:"Coxinha",e:"🥟",n:["Costela","Frango","Frango com Catupiry","Frango com Cream Cheese","Carne de Sol","Charque"]}};
 var LAB={copos:"Copo da Felicidade",minivulcao:"Mini Bolo Vulcão",vulcao:"Vulcão de 1 kg",brownie:"Brownie",coxinha:"Salgado Artesanal"};
-var SECS=[{id:"salgados",t:"Salgados Artesanais",e:"🥟",chip:"Salgados",c:["coxinha"],s:"Coxinhas crocantes e douradas com recheios nobres e generosos"},{id:"doces",t:"Doces & Copos da Felicidade",e:"🥤",chip:"Doces & Copos",c:["copos","brownie"],s:"Camadas generosas de brigadeiro gourmet, frutas selecionadas e puro chocolate nobre"},{id:"minivulcoes",t:"Mini Vulcões",e:"🌋",chip:"Mini Vulcões",c:["minivulcao"],s:"Bolos individuais com cascata farta de recheio que escorre ao cortar"},{id:"vulcao1kg",t:"Vulcão de 1 kg",e:"🍰",chip:"Vulcão de 1 kg",c:["vulcao"],s:"O vulcão grande, para dividir e celebrar"}];
+var SECS=[{id:"salgados",t:"Salgados Artesanais",e:"🥟",chip:"Salgados",c:["coxinha"],s:"Coxinhas crocantes e douradas com recheios nobres e generosos"},{id:"doces",t:"Copos da Felicidade",e:"🥤",chip:"Copos da Felicidade",c:["copos"],s:"Camadas generosas de brigadeiro gourmet, frutas selecionadas e puro chocolate nobre"},{id:"brownies",t:"Brownies",e:"🍫",chip:"Brownies",c:["brownie"],s:"Brownies artesanais para adoçar o seu dia"},{id:"minivulcoes",t:"Mini Vulcões",e:"🌋",chip:"Mini Vulcões",c:["minivulcao"],s:"Bolos individuais com cascata farta de recheio que escorre ao cortar"},{id:"vulcao1kg",t:"Vulcão de 1 kg",e:"🍰",chip:"Vulcão de 1 kg",c:["vulcao"],s:"O vulcão grande, para dividir e celebrar"}];
 var META={"coxinha|Frango":{t:"Clássica",f:1,d:"Massa artesanal macia e casquinha dourada, recheada com frango temperado."},"coxinha|Frango com Catupiry":{t:"Mais Pedida",f:1,d:"Frango bem temperado com generosa camada de Catupiry cremoso."},"coxinha|Carne de Sol":{t:"Especial",d:"Carne de sol desfiada na manteiga de garrafa, com temperos nordestinos."},"coxinha|Charque":{t:"Tradicional",d:"Charque desfiado fininho com cebola, pimentões suaves e cheiro-verde."},"coxinha|Costela":{t:"Gourmet",f:1,d:"Costela desfiada e marinada em ervas finas, bem macia."},"copos|Maracujá Preto":{t:"Refrescante",d:"Mousse de maracujá com ganache de chocolate meio amargo."},"copos|Maracujá Branco":{t:"Delicado",d:"Mousse de maracujá com brigadeiro de chocolate branco."},"copos|Abacaxi":{t:"Caseiro",d:"Abacaxi caramelizado, creme sedoso e biscoito amanteigado."},"copos|Brownie":{t:"Favorito",f:1,d:"Brownie úmido, brigadeiro e Nutella."},"copos|Bombom de Morango":{t:"Mais Pedido",f:1,d:"Brigadeiro branco, morangos picados e ganache ao leite."},"minivulcao|Ninho":{t:"Irresistível",d:"Bolo amanteigado com cascata de brigadeiro de Leite Ninho."},"minivulcao|Chocolate com Nutella":{t:"Super Chocolatudo",f:1,d:"Massa de cacau, brigadeiro e cobertura de Nutella."},"minivulcao|Ninho com Nutella":{t:"Campeão de Vendas",f:1,d:"Vulcão de Ninho coroado com Nutella."},"minivulcao|Delícia de Abacaxi":{t:"Doçura Suave",d:"Massa macia com calda de abacaxi caramelizado e creme de baunilha."},"minivulcao|Geleia de Morango":{t:"Especial da Casa",f:1,d:"Brigadeiro de Ninho com geleia de morango artesanal."}};
 var FEAT=[["coxinha","Frango com Catupiry"],["copos","Bombom de Morango"],["coxinha","Costela"],["minivulcao","Ninho com Nutella"]];
 var PROD={};Object.keys(CATS).forEach(function(c){CATS[c].n.forEach(function(n,i){PROD[c+i]={id:c+i,cat:c,nome:n,preco:PX[c+"|"+n]||PRECOS[c]||0}})});
@@ -188,12 +189,16 @@ function setQ(id,d){var s=ST[id];if(d>0&&s!==undefined&&(cart[id]||0)>=s){toast(
 function sacola(){var l=items(),n=count();$("#nb").textContent=n;$("#nb").style.display=n?"":"none";$("#sn").textContent=n?"("+n+")":"";$("#se").hidden=n>0;$("#sf").hidden=!n;$("#sd").hidden=!n;
  $("#si").innerHTML=l.map(function(i){return '<div class="it"><div class="th">'+ph(i.p)+'</div><div><b>'+esc(i.p.nome)+'</b><br><small>'+LAB[i.p.cat]+' · '+pr(i.p)+'</small></div><div class="qty"><button data-a="m" data-id="'+i.p.id+'">−</button><b>'+i.q+'</b><button data-a="p" data-id="'+i.p.id+'">+</button></div></div>'}).join("");
  $("#ss").textContent=totTxt();$("#tt").textContent=totTxt();var q=$("#qb");q.textContent="🛍 Ver sacola · "+n+(n===1?" item":" itens")+" · "+totTxt();q.classList.toggle("on",n>0&&!$("#dr").classList.contains("open"));pgInfo()}
+var PIXQR="";   // opcional: imagem do QR Code Pix (endereço da imagem)
+function nextId(){var n=ld("hs_seq",0)+1;sv("hs_seq",n);return "HS"+String(n).padStart(3,"0")}
+function goZap(o){if(!ZAP)return;var u=zapUrl(o);if(matchMedia("(pointer:coarse)").matches){location.href=u;return}var w=window.open(u,"_blank");if(!w)location.href=u}
+function pixBox(){return '<div class="pixb"><b>Pagamento por Pix</b>'+(PIXQR?'<img class="pxq" src="'+esc(PIXQR)+'" alt="QR Code Pix">':'<div class="pxq ph0">Espaço do QR Code</div>')+'<div><small>Chave Pix</small><br><b>'+(PIX?esc(PIX):'em breve')+'</b>'+(PIX?' <button type="button" class="btn alt" style="padding:4px 12px" data-a="cp">Copiar</button>':'')+'</div><small>Pague e envie o comprovante no WhatsApp.</small></div>'}
 function totNum(){var t=0;items().forEach(function(i){t+=i.p.preco*i.q});return t}
 function trocoInfo(){var f=$("#fo"),el=$("#tc");if(!el)return;var v=parseFloat(String(f.pago.value).replace(",",".")),t=totNum();el.textContent=!(v>0)?"Informe com quanto você vai pagar.":v<t?"O valor precisa ser maior ou igual ao total ("+brl(t)+").":"Troco a devolver: "+brl(v-t)}
 function pgInfo(){var f=$("#fo"),tp=f.tp.value,pg=f.pg.value;$("#dn").hidden=pg!=="Dinheiro";$("#tv").hidden=f.tr.value==="nao";trocoInfo();if(pg==="Dinheiro"){$("#pgi").innerHTML="Pague em dinheiro "+(tp==="Retirada"?"na retirada":"na entrega")+".";$("#ad").hidden=tp==="Retirada";$("#sx").hidden=tp==="Retirada";return}$("#ad").hidden=tp==="Retirada";$("#sx").hidden=tp==="Retirada";
- $("#pgi").innerHTML=pg==="Pix"?(PIX?'Chave Pix: <b>'+esc(PIX)+'</b> <button type="button" class="btn alt" style="padding:4px 12px" data-a="cp">Copiar</button><br>Pague e envie o comprovante no WhatsApp.':'Você receberá a chave Pix no WhatsApp ao confirmar o pedido.'):'Pague com cartão na maquininha '+(tp==="Retirada"?"na retirada":"na entrega")+'.'}
+ $("#pgi").innerHTML=pg==="Pix"?pixBox():'Pague com cartão na maquininha '+(tp==="Retirada"?"na retirada":"na entrega")+'.'}
 function fillForm(){if(!user)return;var f=$("#fo");[["nome",user.nome],["rua",user.rua],["num",user.num],["bairro",user.bairro],["comp",user.comp],["ref",user.ref]].forEach(function(x){if(f[x[0]]&&!f[x[0]].value)f[x[0]].value=x[1]||""})}
-function open(id){$("#ov").classList.add("on");$("#"+id).classList.add("open");$("#qb").classList.remove("on");if(id==="dr")fillForm()}
+function openD(id){$("#ov").classList.add("on");$("#"+id).classList.add("open");$("#qb").classList.remove("on");if(id==="dr")fillForm()}
 function closeAll(){$("#ov").classList.remove("on");$("#dr").classList.remove("open");$("#md").classList.remove("on");sacola()}
 function openM(h){$("#mc").innerHTML=h;$("#md").classList.add("on")}
 function go(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavior:RM?"auto":"smooth"})}
@@ -203,12 +208,12 @@ function zapUrl(o){return "https://wa.me/"+ZAP+"?text="+encodeURIComponent(msg(o
 function fin(){var f=$("#fo"),er=$("#er"),l=items();if(!l.length)return;var d=Object.fromEntries(new FormData(f));
  if(!d.nome.trim()){er.textContent="Informe seu nome.";return}
  if(d.tp==="Entrega"&&(!d.rua.trim()||!d.num.trim()||!d.bairro.trim())){er.textContent="Informe rua, número e bairro para a entrega.";return}
- er.textContent="";var pv0=0;if(d.pg==="Dinheiro"&&d.tr==="sim"){pv0=parseFloat(String(d.pago||"").replace(",","."));if(!(pv0>=totNum())){er.textContent="Informe com quanto vai pagar (valor igual ou maior que o total).";return}}var o={id:"HS"+String(Date.now()).slice(-6),data:new Date().toLocaleString("pt-BR"),nome:d.nome.trim(),zap:user?user.zap:"",tp:d.tp,pg:d.pg,obs:(d.obs||"").trim(),total:totTxt(),pago:pv0,troco:pv0?pv0-totNum():0,
+ er.textContent="";var pv0=0;if(d.pg==="Dinheiro"&&d.tr==="sim"){pv0=parseFloat(String(d.pago||"").replace(",","."));if(!(pv0>=totNum())){er.textContent="Informe com quanto vai pagar (valor igual ou maior que o total).";return}}var o={id:nextId(),data:new Date().toLocaleString("pt-BR"),nome:d.nome.trim(),zap:user?user.zap:"",tp:d.tp,pg:d.pg,obs:(d.obs||"").trim(),total:totTxt(),pago:pv0,troco:pv0?pv0-totNum():0,
   end:d.tp==="Retirada"?"Retirada no local":d.rua.trim()+", "+d.num.trim()+" – "+d.bairro.trim()+(d.comp.trim()?" ("+d.comp.trim()+")":"")+(d.ref.trim()?" · ref.: "+d.ref.trim():""),
   itens:l.map(function(i){return{q:i.q,nome:i.p.nome,cat:LAB[i.p.cat],sub:i.p.preco*i.q}})};
  l.forEach(function(i){if(ST[i.p.id]!==undefined)mov(i.p.id,-i.q,"Pedido "+o.id)});
  orders.unshift(o);sv("hs_orders",orders);cart={};sv("hs_cart",cart);document.querySelectorAll("[data-q]").forEach(function(e){e.textContent=0});renderCat();
- $("#dr").classList.remove("open");confetti();if(ZAP)window.open(zapUrl(o),"_blank");
+ $("#dr").classList.remove("open");confetti();goZap(o);
  openM('<h2>Pedido pronto! 🎉</h2><p>Falta só um passo: <b>envie a mensagem no WhatsApp</b> para confirmar o pedido <b>'+o.id+'</b> com a Happy Sweet.</p><p><a class="btn" target="_blank" rel="noopener" href="'+zapUrl(o)+'">Abrir WhatsApp</a></p><p class="muted">Você pode ver este pedido depois em “Meus pedidos”.</p>');sacola()}
 
 function adr(u){u=u||{};return '<div class="row"><div><label>Rua</label><input name="rua" value="'+esc(u.rua||"")+'"></div><div><label>Número</label><input name="num" value="'+esc(u.num||"")+'"></div></div><div class="row"><div><label>Bairro</label><input name="bairro" value="'+esc(u.bairro||"")+'"></div><div><label>Complemento</label><input name="comp" value="'+esc(u.comp||"")+'"></div></div><label>Ponto de referência</label><input name="ref" value="'+esc(u.ref||"")+'">'}
@@ -229,7 +234,7 @@ document.addEventListener("click",function(e){var mu=$("#mu");if(mu&&!e.target.c
  var n=e.target.closest(".mn a,.fg a");if(n){var h=(n.getAttribute("href")||"").slice(1);if(SECS.some(function(s){return s.id===h})&&(FILT!=="todos"||QS)){FILT="todos";QS="";$("#qs").value="";renderCat()}}
  if(e.target===$("#md"))closeAll();var b=e.target.closest("[data-a]");if(!b)return;var a=b.dataset.a,id=b.dataset.id;
  if(a==="p")setQ(id,1);else if(a==="m")setQ(id,-1);
- else if(a==="sacola"){open("dr");sacola()}else if(a==="fechar")closeAll();
+ else if(a==="sacola"){openD("dr");sacola()}else if(a==="fechar")closeAll();
  else if(a==="cardapio"){closeAll();go("cardapio")}
  else if(a==="busca"){go("cardapio");setTimeout(function(){$("#qs").focus()},500)}
  else if(a==="chip"){FILT=id;renderCat();go("cardapio")}
