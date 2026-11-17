@@ -84,7 +84,7 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 <div class="ann" id="an"></div>
 <div class="bar">
 <a class="logo" href="#inicio"><span class="lg">♥</span><span><b class="lt">Happy Sweet</b><small>Doces &amp; Salgados Finos</small></span></a>
-<nav class="mn"><a href="#inicio">Início</a><a href="#favoritos">Favoritos</a><a href="#salgados">Salgados</a><a href="#doces">Doces</a><a href="#minivulcoes">Mini Vulcões</a><a href="#sobre">Sobre Nós</a><a href="#contato">Contato</a></nav>
+<nav class="mn"><a href="#inicio">Início</a><a href="#favoritos">Favoritos</a><a href="#salgados">Salgados</a><a href="#doces">Doces</a><a href="#minivulcoes">Mini Vulcões</a><a href="#vulcao1kg">Vulcão 1 kg</a><a href="#sobre">Sobre Nós</a><a href="#contato">Contato</a></nav>
 <button class="ib" data-a="busca" aria-label="Pesquisar">🔍</button>
 <a class="wa" id="wa" target="_blank" rel="noopener" aria-label="WhatsApp">📞</a>
 <button class="tg" id="tg" data-a="tema" aria-label="Mudar tema"></button>
@@ -105,8 +105,9 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 <label>Seu nome</label><input name="nome" placeholder="Ex.: Maria Eduarda" autocomplete="name">
 <label>Como prefere receber?</label><div class="pay"><label><input type="radio" name="tp" value="Entrega" checked>🛵 Entrega</label><label><input type="radio" name="tp" value="Retirada">🏬 Retirar no local</label></div>
 <div id="ad"><div class="row"><div><label>Rua</label><input name="rua"></div><div><label>Número</label><input name="num"></div></div><div class="row"><div><label>Bairro</label><input name="bairro"></div><div><label>Complemento</label><input name="comp"></div></div><label>Ponto de referência</label><input name="ref"></div>
-<label>Forma de pagamento</label><div class="pay"><label><input type="radio" name="pg" value="Pix" checked>💠 Pix</label><label><input type="radio" name="pg" value="Cartão">💳 Cartão (maquininha)</label></div>
+<label>Forma de pagamento</label><div class="pay"><label><input type="radio" name="pg" value="Pix" checked>💠 Pix</label><label><input type="radio" name="pg" value="Cartão">💳 Cartão (maquininha)</label><label><input type="radio" name="pg" value="Dinheiro">💵 Dinheiro</label></div>
 <div class="note" id="pgi"></div>
+<div id="dn" hidden><label>Precisa de troco?</label><div class="pay"><label><input type="radio" name="tr" value="sim" checked>Sim, preciso de troco</label><label><input type="radio" name="tr" value="nao">Não, valor certinho</label></div><div id="tv"><label>Vai pagar com quanto? (R$)</label><input name="pago" inputmode="decimal" placeholder="Ex.: 50"><p class="note" id="tc" style="margin:8px 0 0"></p></div></div>
 <label>Observações (opcional)</label><textarea name="obs" rows="2" placeholder="Ex.: embalagem para presente..."></textarea>
 </form></div></div>
 <div class="df" id="sd" hidden>
@@ -125,7 +126,7 @@ label{display:block;font-weight:600;margin:10px 0 4px;font-size:.9rem}input,text
 var ZAP="5581983371014";   // WhatsApp da loja (DDI+DDD+número)
 var INSTA="happysweeett";  // Instagram da loja
 var PIX="";                // Chave Pix da loja
-var ADMINS=[];             // e-mails (Gmail) que podem mexer no estoque, ex.: ["loja@gmail.com"]
+var ADMINS=["vitoriacamelooliveira23@gmail.com"];             // e-mails (Gmail) que podem mexer no estoque, ex.: ["loja@gmail.com"]
 var ENDERECO="",HORARIO="";// opcionais: aparecem no Contato se preenchidos
 var PRECOS={copos:14,minivulcao:16,vulcao:40,brownie:10,coxinha:0};
 var PX={"copos|Abacaxi":12,"copos|Maracujá Branco":12,"copos|Maracujá Preto":12,"coxinha|Carne de Sol":10,"coxinha|Charque":10,"coxinha|Costela":12,"coxinha|Frango":7,"coxinha|Frango com Catupiry":8,"coxinha|Frango com Cream Cheese":10};
@@ -134,7 +135,7 @@ var IMGC={coxinha:"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHCA
 // ============================
 var CATS={copos:{t:"Copos da Felicidade",e:"🥤",n:["Abacaxi","Maracujá Branco","Maracujá Preto","Brownie","Bombom de Morango"]},minivulcao:{t:"Mini Vulcão",e:"🌋",n:["Maracujá","Ninho com Nutella","Ninho","Chocolate com Nutella","Brincadeira","Bem Casado","Delícia de Abacaxi","Geleia de Morango"]},vulcao:{t:"Vulcão de 1 kg",e:"🍰",n:["Bem Casado","Chocolate","Ninho"]},brownie:{t:"Brownie",e:"🍫",n:["Bem Casado","Brigadeiro"]},coxinha:{t:"Coxinha",e:"🥟",n:["Costela","Frango","Frango com Catupiry","Frango com Cream Cheese","Carne de Sol","Charque"]}};
 var LAB={copos:"Copo da Felicidade",minivulcao:"Mini Bolo Vulcão",vulcao:"Vulcão de 1 kg",brownie:"Brownie",coxinha:"Salgado Artesanal"};
-var SECS=[{id:"salgados",t:"Salgados Artesanais",e:"🥟",chip:"Salgados",c:["coxinha"],s:"Coxinhas crocantes e douradas com recheios nobres e generosos"},{id:"doces",t:"Doces & Copos da Felicidade",e:"🥤",chip:"Doces & Copos",c:["copos","brownie"],s:"Camadas generosas de brigadeiro gourmet, frutas selecionadas e puro chocolate nobre"},{id:"minivulcoes",t:"Mini Vulcões Especiais",e:"🌋",chip:"Mini Vulcões",c:["minivulcao","vulcao"],s:"Bolos com cascata farta de recheio que escorre ao cortar, e o vulcão de 1 kg para dividir"}];
+var SECS=[{id:"salgados",t:"Salgados Artesanais",e:"🥟",chip:"Salgados",c:["coxinha"],s:"Coxinhas crocantes e douradas com recheios nobres e generosos"},{id:"doces",t:"Doces & Copos da Felicidade",e:"🥤",chip:"Doces & Copos",c:["copos","brownie"],s:"Camadas generosas de brigadeiro gourmet, frutas selecionadas e puro chocolate nobre"},{id:"minivulcoes",t:"Mini Vulcões",e:"🌋",chip:"Mini Vulcões",c:["minivulcao"],s:"Bolos individuais com cascata farta de recheio que escorre ao cortar"},{id:"vulcao1kg",t:"Vulcão de 1 kg",e:"🍰",chip:"Vulcão de 1 kg",c:["vulcao"],s:"O vulcão grande, para dividir e celebrar"}];
 var META={"coxinha|Frango":{t:"Clássica",f:1,d:"Massa artesanal macia e casquinha dourada, recheada com frango temperado."},"coxinha|Frango com Catupiry":{t:"Mais Pedida",f:1,d:"Frango bem temperado com generosa camada de Catupiry cremoso."},"coxinha|Carne de Sol":{t:"Especial",d:"Carne de sol desfiada na manteiga de garrafa, com temperos nordestinos."},"coxinha|Charque":{t:"Tradicional",d:"Charque desfiado fininho com cebola, pimentões suaves e cheiro-verde."},"coxinha|Costela":{t:"Gourmet",f:1,d:"Costela desfiada e marinada em ervas finas, bem macia."},"copos|Maracujá Preto":{t:"Refrescante",d:"Mousse de maracujá com ganache de chocolate meio amargo."},"copos|Maracujá Branco":{t:"Delicado",d:"Mousse de maracujá com brigadeiro de chocolate branco."},"copos|Abacaxi":{t:"Caseiro",d:"Abacaxi caramelizado, creme sedoso e biscoito amanteigado."},"copos|Brownie":{t:"Favorito",f:1,d:"Brownie úmido, brigadeiro e Nutella."},"copos|Bombom de Morango":{t:"Mais Pedido",f:1,d:"Brigadeiro branco, morangos picados e ganache ao leite."},"minivulcao|Ninho":{t:"Irresistível",d:"Bolo amanteigado com cascata de brigadeiro de Leite Ninho."},"minivulcao|Chocolate com Nutella":{t:"Super Chocolatudo",f:1,d:"Massa de cacau, brigadeiro e cobertura de Nutella."},"minivulcao|Ninho com Nutella":{t:"Campeão de Vendas",f:1,d:"Vulcão de Ninho coroado com Nutella."},"minivulcao|Delícia de Abacaxi":{t:"Doçura Suave",d:"Massa macia com calda de abacaxi caramelizado e creme de baunilha."},"minivulcao|Geleia de Morango":{t:"Especial da Casa",f:1,d:"Brigadeiro de Ninho com geleia de morango artesanal."}};
 var FEAT=[["coxinha","Frango com Catupiry"],["copos","Bombom de Morango"],["coxinha","Costela"],["minivulcao","Ninho com Nutella"]];
 var PROD={};Object.keys(CATS).forEach(function(c){CATS[c].n.forEach(function(n,i){PROD[c+i]={id:c+i,cat:c,nome:n,preco:PX[c+"|"+n]||PRECOS[c]||0}})});
@@ -187,7 +188,9 @@ function setQ(id,d){var s=ST[id];if(d>0&&s!==undefined&&(cart[id]||0)>=s){toast(
 function sacola(){var l=items(),n=count();$("#nb").textContent=n;$("#nb").style.display=n?"":"none";$("#sn").textContent=n?"("+n+")":"";$("#se").hidden=n>0;$("#sf").hidden=!n;$("#sd").hidden=!n;
  $("#si").innerHTML=l.map(function(i){return '<div class="it"><div class="th">'+ph(i.p)+'</div><div><b>'+esc(i.p.nome)+'</b><br><small>'+LAB[i.p.cat]+' · '+pr(i.p)+'</small></div><div class="qty"><button data-a="m" data-id="'+i.p.id+'">−</button><b>'+i.q+'</b><button data-a="p" data-id="'+i.p.id+'">+</button></div></div>'}).join("");
  $("#ss").textContent=totTxt();$("#tt").textContent=totTxt();var q=$("#qb");q.textContent="🛍 Ver sacola · "+n+(n===1?" item":" itens")+" · "+totTxt();q.classList.toggle("on",n>0&&!$("#dr").classList.contains("open"));pgInfo()}
-function pgInfo(){var f=$("#fo"),tp=f.tp.value,pg=f.pg.value;$("#ad").hidden=tp==="Retirada";$("#sx").hidden=tp==="Retirada";
+function totNum(){var t=0;items().forEach(function(i){t+=i.p.preco*i.q});return t}
+function trocoInfo(){var f=$("#fo"),el=$("#tc");if(!el)return;var v=parseFloat(String(f.pago.value).replace(",",".")),t=totNum();el.textContent=!(v>0)?"Informe com quanto você vai pagar.":v<t?"O valor precisa ser maior ou igual ao total ("+brl(t)+").":"Troco a devolver: "+brl(v-t)}
+function pgInfo(){var f=$("#fo"),tp=f.tp.value,pg=f.pg.value;$("#dn").hidden=pg!=="Dinheiro";$("#tv").hidden=f.tr.value==="nao";trocoInfo();if(pg==="Dinheiro"){$("#pgi").innerHTML="Pague em dinheiro "+(tp==="Retirada"?"na retirada":"na entrega")+".";$("#ad").hidden=tp==="Retirada";$("#sx").hidden=tp==="Retirada";return}$("#ad").hidden=tp==="Retirada";$("#sx").hidden=tp==="Retirada";
  $("#pgi").innerHTML=pg==="Pix"?(PIX?'Chave Pix: <b>'+esc(PIX)+'</b> <button type="button" class="btn alt" style="padding:4px 12px" data-a="cp">Copiar</button><br>Pague e envie o comprovante no WhatsApp.':'Você receberá a chave Pix no WhatsApp ao confirmar o pedido.'):'Pague com cartão na maquininha '+(tp==="Retirada"?"na retirada":"na entrega")+'.'}
 function fillForm(){if(!user)return;var f=$("#fo");[["nome",user.nome],["rua",user.rua],["num",user.num],["bairro",user.bairro],["comp",user.comp],["ref",user.ref]].forEach(function(x){if(f[x[0]]&&!f[x[0]].value)f[x[0]].value=x[1]||""})}
 function open(id){$("#ov").classList.add("on");$("#"+id).classList.add("open");$("#qb").classList.remove("on");if(id==="dr")fillForm()}
@@ -195,12 +198,12 @@ function closeAll(){$("#ov").classList.remove("on");$("#dr").classList.remove("o
 function openM(h){$("#mc").innerHTML=h;$("#md").classList.add("on")}
 function go(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavior:RM?"auto":"smooth"})}
 
-function msg(o){return "Olá, Happy Sweet! 💖\nQuero confirmar meu pedido *"+o.id+"*:\n\n"+o.itens.map(function(i){return "• "+i.q+"× "+i.nome+" ("+brl(i.sub)+")"}).join("\n")+"\n\nTotal: "+o.total+"\n"+(o.tp==="Retirada"?"Retirada no local":"Entrega: "+o.end)+"\nPagamento: "+(o.pg==="Pix"?"Pix":"Cartão na maquininha ("+(o.tp==="Retirada"?"retirada":"entrega")+")")+"\nNome: "+o.nome+(o.zap?" · ZAP "+o.zap:"")+(o.obs?"\nObs.: "+o.obs:"")}
+function msg(o){return "Olá, Happy Sweet! 💖\nQuero confirmar meu pedido *"+o.id+"*:\n\n"+o.itens.map(function(i){return "• "+i.q+"× "+i.nome+" ("+brl(i.sub)+")"}).join("\n")+"\n\nTotal: "+o.total+"\n"+(o.tp==="Retirada"?"Retirada no local":"Entrega: "+o.end)+"\nPagamento: "+(o.pg==="Pix"?"Pix":o.pg==="Dinheiro"?"Dinheiro "+(o.pago?"— pago com "+brl(o.pago)+" (troco de "+brl(o.troco)+")":"— sem troco (valor certinho)"):"Cartão na maquininha ("+(o.tp==="Retirada"?"retirada":"entrega")+")")+"\nNome: "+o.nome+(o.zap?" · ZAP "+o.zap:"")+(o.obs?"\nObs.: "+o.obs:"")}
 function zapUrl(o){return "https://wa.me/"+ZAP+"?text="+encodeURIComponent(msg(o))}
 function fin(){var f=$("#fo"),er=$("#er"),l=items();if(!l.length)return;var d=Object.fromEntries(new FormData(f));
  if(!d.nome.trim()){er.textContent="Informe seu nome.";return}
  if(d.tp==="Entrega"&&(!d.rua.trim()||!d.num.trim()||!d.bairro.trim())){er.textContent="Informe rua, número e bairro para a entrega.";return}
- er.textContent="";var o={id:"HS"+String(Date.now()).slice(-6),data:new Date().toLocaleString("pt-BR"),nome:d.nome.trim(),zap:user?user.zap:"",tp:d.tp,pg:d.pg,obs:(d.obs||"").trim(),total:totTxt(),
+ er.textContent="";var pv0=0;if(d.pg==="Dinheiro"&&d.tr==="sim"){pv0=parseFloat(String(d.pago||"").replace(",","."));if(!(pv0>=totNum())){er.textContent="Informe com quanto vai pagar (valor igual ou maior que o total).";return}}var o={id:"HS"+String(Date.now()).slice(-6),data:new Date().toLocaleString("pt-BR"),nome:d.nome.trim(),zap:user?user.zap:"",tp:d.tp,pg:d.pg,obs:(d.obs||"").trim(),total:totTxt(),pago:pv0,troco:pv0?pv0-totNum():0,
   end:d.tp==="Retirada"?"Retirada no local":d.rua.trim()+", "+d.num.trim()+" – "+d.bairro.trim()+(d.comp.trim()?" ("+d.comp.trim()+")":"")+(d.ref.trim()?" · ref.: "+d.ref.trim():""),
   itens:l.map(function(i){return{q:i.q,nome:i.p.nome,cat:LAB[i.p.cat],sub:i.p.preco*i.q}})};
  l.forEach(function(i){if(ST[i.p.id]!==undefined)mov(i.p.id,-i.q,"Pedido "+o.id)});
@@ -238,8 +241,8 @@ document.addEventListener("click",function(e){var mu=$("#mu");if(mu&&!e.target.c
  else if(a==="fin")fin();else if(a==="limpar"){cart={};sv("hs_cart",cart);document.querySelectorAll("[data-q]").forEach(function(x){x.textContent=0});sacola()}
  else if(a==="cp"){try{navigator.clipboard.writeText(PIX);b.textContent="Copiado!"}catch(x){}}
  else if(a==="qz"){window.open("https://wa.me/"+ZAP+"?text="+encodeURIComponent($("#qm").value||"Olá, Happy Sweet! Tenho uma dúvida."),"_blank")}});
-document.addEventListener("change",function(e){if(e.target.name==="tp"||e.target.name==="pg")pgInfo()});
-document.addEventListener("input",function(e){if(e.target.id==="qs"){QS=e.target.value;renderCat()}});
+document.addEventListener("change",function(e){if(e.target.name==="tp"||e.target.name==="pg"||e.target.name==="tr")pgInfo()});
+document.addEventListener("input",function(e){if(e.target.name==="pago")trocoInfo();if(e.target.id==="qs"){QS=e.target.value;renderCat()}});
 document.addEventListener("keydown",function(e){if(e.key==="Escape")closeAll()});
 document.addEventListener("submit",function(e){e.preventDefault();var f=e.target;if(f.id!=="fc")return;var d=Object.fromEntries(new FormData(f)),er=$("#er2"),z=(d.zap||"").replace(/\D/g,""),t=(d.tel||"").replace(/\D/g,"");
  if(!d.nome.trim()||z.length<10||t.length<10||!/^[^\s@]+@gmail\.com$/i.test(d.email.trim())||!d.rua.trim()||!d.num.trim()||!d.bairro.trim()){er.textContent="Preencha nome, ZAP, telefone, Gmail e endereço (rua, número e bairro).";return}
