@@ -107,6 +107,7 @@ header .bar{flex-wrap:nowrap;gap:6px}
 .mpi{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;max-width:560px;margin:auto}.mpi .cf{grid-column:1/-1}.mp a{padding:12px 6px}
 @supports(height:100dvh){.dr{height:100dvh;bottom:auto}}
 .lt{white-space:nowrap}@media(max-width:400px){.lt{font-size:1.2rem}.sb{width:70px}.ib{width:38px}.logo{gap:6px}.lg{width:34px;height:34px}}
+.prod.fora .ph img{filter:grayscale(1);opacity:.45}.fdo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(76,5,25,.9);color:#fff;font-weight:800;padding:8px 16px;border-radius:99px;font-size:.9rem;white-space:nowrap;z-index:2}.fds{background:#a8a29e;color:#fff;border-radius:99px;padding:8px 14px;font-size:.8rem}
 </style>
 </head>
 <body>
@@ -155,6 +156,7 @@ var ZAP="5581983371014";   // WhatsApp da loja (DDI+DDD+número)
 var INSTA="happysweeett";  // Instagram da loja
 var PIX="";                // Chave Pix da loja
 var ADMINS=["vitoriacamelooliveira23@gmail.com","ratoatomicogggbr24@gmail.com"];             // e-mails (Gmail) que podem mexer no estoque, ex.: ["loja@gmail.com"]
+var ESTOQUE_OBRIGATORIO=false; // true = produto SEM estoque cadastrado aparece "Fora de estoque" (só ligue depois que o banco de dados estiver ativo)
 var ENDERECO="",HORARIO="";// opcionais: aparecem no Contato se preenchidos
 var PRECOS={copos:14,minivulcao:16,vulcao:40,brownie:10,coxinha:0};
 var PX={"copos|Abacaxi":12,"copos|Maracujá Branco":12,"copos|Maracujá Preto":12,"coxinha|Carne de Sol":10,"coxinha|Charque":10,"coxinha|Costela":12,"coxinha|Frango":7,"coxinha|Frango com Catupiry":8,"coxinha|Frango com Cream Cheese":10};
@@ -191,8 +193,10 @@ function totTxt(){var t=0,ok=true;items().forEach(function(i){if(i.p.preco)t+=i.
 function isAdm(){return !!(user&&user.email&&ADMINS.some(function(e){return e.toLowerCase()===user.email.toLowerCase()}))}
 function toast(t){var e=$("#ts");e.textContent=t;e.classList.add("on");clearTimeout(tmr);tmr=setTimeout(function(){e.classList.remove("on")},1800)}
 function ph(p){var u=FOTOS[p.cat+"|"+p.nome]||IMGC[p.cat];return '<div class="ph">'+(u?'<img src="'+esc(u)+'" alt="'+esc(p.nome)+'" loading="lazy">':CATS[p.cat].e)+'</div>'}
-function card(p){var s=ST[p.id],out=s!==undefined&&s<=0,m=META[p.cat+"|"+p.nome]||{};
- return '<article class="card prod rv"><div class="pw">'+ph(p)+(m.t?'<span class="tag">✨ '+m.t+'</span>':'')+(m.f?'<span class="dest">Destaque</span>':'')+'</div><div class="pb"><small class="cat">'+LAB[p.cat]+'</small><h3>'+esc(p.nome)+'</h3>'+(m.d?'<p class="dsc">'+m.d+'</p>':'')+(s>0&&s<=5?'<span class="low">Restam '+s+'</span>':'')+'<div class="pf"><div><small>Preço</small><b class="pr">'+pr(p)+'</b></div>'+(out?'<b class="low">Esgotado</b>':'<div class="qty"><button data-a="m" data-id="'+p.id+'" aria-label="Remover">−</button><b data-q="'+p.id+'">'+(cart[p.id]||0)+'</b><button data-a="p" data-id="'+p.id+'" aria-label="Adicionar">+</button></div>')+'</div></div></article>'}
+function sem(p){var s=ST[p.id];return s===undefined?ESTOQUE_OBRIGATORIO:s<=0}
+function zero(id){var c=ST[id]||0;ST[id]=0;LOG.unshift({w:"Zerado",p:PROD[id].nome+" ("+LAB[PROD[id].cat]+")",d:-c});LOG=LOG.slice(0,60);sv("hs_stock",ST);sv("hs_log",LOG)}
+function card(p){var s=ST[p.id],out=sem(p),m=META[p.cat+"|"+p.nome]||{};
+ return '<article class="card prod rv'+(out?' fora':'')+'"><div class="pw">'+ph(p)+(out?'<span class="fdo">Fora de estoque</span>':'')+(m.t?'<span class="tag">✨ '+m.t+'</span>':'')+(m.f?'<span class="dest">Destaque</span>':'')+'</div><div class="pb"><small class="cat">'+LAB[p.cat]+'</small><h3>'+esc(p.nome)+'</h3>'+(m.d?'<p class="dsc">'+m.d+'</p>':'')+(s>0&&s<=5?'<span class="low">Restam '+s+'</span>':'')+'<div class="pf"><div><small>Preço</small><b class="pr">'+pr(p)+'</b></div>'+(out?'<b class="fds">Fora de estoque</b>':'<div class="qty"><button data-a="m" data-id="'+p.id+'" aria-label="Remover">−</button><b data-q="'+p.id+'">'+(cart[p.id]||0)+'</b><button data-a="p" data-id="'+p.id+'" aria-label="Adicionar">+</button></div>')+'</div></div></article>'}
 function P(c,n){return Object.keys(PROD).map(function(k){return PROD[k]}).filter(function(p){return p.cat===c&&p.nome===n})[0]}
 function words(t){return t.split(" ").map(function(w,i){return '<span class="w" style="--d:'+i*80+'ms">'+w+'</span>'}).join(" ")}
 function showAll(el){el.querySelectorAll(".rv").forEach(function(e){e.classList.add("in")})}
@@ -216,10 +220,10 @@ function renderCat(a){var q=norm(QS),h=SECS.map(function(s){var ps=Object.keys(P
   return ps.length?'<section id="'+s.id+'"><div class="sh2 hh"><div style="display:flex;gap:12px;align-items:center"><span class="ic">'+s.e+'</span><div><h2>'+s.t+'</h2><p class="muted">'+s.s+'</p></div></div></div><div class="grid">'+ps.map(function(p){return card(p)}).join("")+'</div></section>':""}).join("");
  $("#cs").innerHTML=h||'<div class="card" style="padding:26px;text-align:center"><h3>Nenhum produto encontrado</h3><p class="muted">Tente outro nome, como Frango, Ninho ou Nutella.</p></div>';if(!a)showAll($("#cs"))}
 
-function setQ(id,d){var s=ST[id];if(d>0&&s!==undefined&&(cart[id]||0)+d>s){toast("Só temos "+s+" em estoque");return}
+function setQ(id,d){var s=ST[id];if(d>0&&sem(PROD[id])){toast("Produto fora de estoque");return}if(d>0&&s!==undefined&&(cart[id]||0)+d>s){toast("Só temos "+s+" em estoque");return}
  cart[id]=Math.max(0,(cart[id]||0)+d);if(!cart[id])delete cart[id];sv("hs_cart",cart);document.querySelectorAll('[data-q="'+id+'"]').forEach(function(e){e.textContent=cart[id]||0});if(d>0)toast("Adicionado à sacola");sacola()}
 function sacola(){var l=items(),n=count();$("#nb").textContent=n;$("#nb").style.display=n?"":"none";$("#sn").textContent=n?n+(n===1?" item selecionado":" itens selecionados"):"Nenhum item ainda";$("#se").hidden=n>0;$("#sf").hidden=!n;$("#sd").hidden=!n;
- $("#si").innerHTML=l.map(function(i){return '<div class="it"><div class="th">'+ph(i.p)+'</div><div><b>'+esc(i.p.nome)+'</b><br><small>'+LAB[i.p.cat]+' · '+pr(i.p)+'</small></div><div class="qty"><button data-a="m" data-id="'+i.p.id+'">−</button><b>'+i.q+'</b><button data-a="p" data-id="'+i.p.id+'">+</button></div></div>'}).join("");
+ $("#si").innerHTML=l.map(function(i){return '<div class="it"><div class="th">'+ph(i.p)+'</div><div><b>'+esc(i.p.nome)+'</b><br><small>'+LAB[i.p.cat]+' · '+pr(i.p)+'</small>'+(sem(i.p)?' <small class="low">Fora de estoque</small>':'')+'</div><div class="qty"><button data-a="m" data-id="'+i.p.id+'">−</button><b>'+i.q+'</b><button data-a="p" data-id="'+i.p.id+'">+</button></div></div>'}).join("");
  $("#ss").textContent=totTxt();$("#tt").textContent=totTxt();var q=$("#qb");q.textContent="🛍 Ver sacola · "+n+(n===1?" item":" itens")+" · "+totTxt();q.classList.toggle("on",n>0&&!$("#dr").classList.contains("open"));pgInfo()}
 var PIXQR="";   // opcional: imagem do QR Code Pix (endereço da imagem)
 function nextId(){var n=ld("hs_seq",0)+1;sv("hs_seq",n);return "HS"+String(n).padStart(3,"0")}
@@ -238,6 +242,7 @@ function go(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavio
 function msg(o){return "Olá, Happy Sweet! 💖\nQuero confirmar meu pedido *"+o.id+"*:\n\n"+o.itens.map(function(i){return "• "+i.q+"× "+i.nome+" ("+brl(i.sub)+")"}).join("\n")+"\n\nTotal: "+o.total+"\n"+(o.tp==="Retirada"?"Retirada no local":"Entrega: "+o.end)+"\nPagamento: "+(o.pg==="Pix"?"Pix":o.pg==="Dinheiro"?"Dinheiro "+(o.pago?"— pago com "+brl(o.pago)+" (troco de "+brl(o.troco)+")":"— sem troco (valor certinho)"):"Cartão na maquininha ("+(o.tp==="Retirada"?"retirada":"entrega")+")")+"\nNome: "+o.nome+(o.zap?" · ZAP "+o.zap:"")+(o.obs?"\nObs.: "+o.obs:"")}
 function zapUrl(o){return "https://wa.me/"+ZAP+"?text="+encodeURIComponent(msg(o))}
 function fin(){var f=$("#fo"),er=$("#er"),l=items();if(!l.length)return;var d=Object.fromEntries(new FormData(f));
+ var bad=l.filter(function(i){return sem(i.p)||(ST[i.p.id]!==undefined&&i.q>ST[i.p.id])});if(bad.length){er.textContent=bad[0].p.nome+" está fora de estoque ou sem quantidade suficiente. Ajuste a sacola.";return}
  if(!d.nome.trim()){er.textContent="Informe seu nome.";return}
  if(d.tp==="Entrega"&&(!d.rua.trim()||!d.num.trim()||!d.bairro.trim())){er.textContent="Informe rua, número e bairro para a entrega.";return}
  er.textContent="";var pv0=0;if(d.pg==="Dinheiro"&&d.tr==="sim"){pv0=parseFloat(String(d.pago||"").replace(",","."));if(!(pv0>=totNum())){er.textContent="Informe com quanto vai pagar (valor igual ou maior que o total).";return}}var o={id:nextId(),data:new Date().toLocaleString("pt-BR"),nome:d.nome.trim(),zap:user?user.zap:"",tp:d.tp,pg:d.pg,obs:(d.obs||"").trim(),total:totTxt(),pago:pv0,troco:pv0?pv0-totNum():0,
@@ -254,7 +259,7 @@ function vDone(o){return '<h2>Pedido pronto! 🎉</h2><p>Falta só um passo: <b>
 function vPed(){return '<h2>Histórico</h2>'+(orders.length?orders.map(function(o){return '<div class="card" style="padding:14px;margin:10px 0"><b>Pedido '+o.id+'</b> <span class="muted">· '+o.data+' · '+o.pg+' · '+o.tp+'</span>'+o.itens.map(function(i){return '<div class="ln"><span>'+i.q+'× '+esc(i.nome)+'</span><b>'+(i.sub?brl(i.sub):"")+'</b></div>'}).join("")+'<p class="muted" style="margin:4px 0">'+esc(o.end)+'</p><b>'+o.total+'</b>'+(ZAP?' · <a target="_blank" rel="noopener" href="'+zapUrl(o)+'" style="color:var(--pink);font-weight:700">Enviar no ZAP</a>':'')+'</div>'}).join(""):'<p class="muted">Você ainda não fez pedidos.</p>')}
 function mov(id,d,w){if(ST[id]===undefined&&d<0)return;ST[id]=Math.max(0,(ST[id]||0)+d);LOG.unshift({w:w,p:PROD[id].nome+" ("+LAB[PROD[id].cat]+")",d:d});LOG=LOG.slice(0,60);sv("hs_stock",ST);sv("hs_log",LOG)}
 function vEst(){if(!isAdm())return '<h2>Estoque</h2><div class="note">Acesso restrito a contas de administrador.</div>';
- return '<h2>Estoque</h2><div class="note">Os números ficam guardados neste aparelho. Produto “sem controle” não tem limite de pedidos; use Entrada para começar a controlar.</div>'+Object.keys(CATS).map(function(c){return '<h3>'+CATS[c].e+' '+CATS[c].t+'</h3>'+Object.keys(PROD).filter(function(k){return PROD[k].cat===c}).map(function(k){var s=ST[k];return '<div class="ln" style="flex-wrap:wrap;align-items:center"><span>'+esc(PROD[k].nome)+' <b style="color:var(--pink)">'+(s===undefined?"sem controle":s)+'</b></span><span><input id="q_'+k+'" type="number" min="1" value="1" style="width:64px;display:inline-block"> <button class="btn alt" style="padding:6px 12px" data-a="in" data-id="'+k+'">Entrada</button> <button class="btn alt" style="padding:6px 12px" data-a="sd" data-id="'+k+'">Saída</button></span></div>'}).join("")}).join("")+'<h3>Últimas movimentações</h3>'+(LOG.length?LOG.slice(0,12).map(function(x){return '<div class="ln"><span>'+esc(x.w)+' · '+esc(x.p)+'</span><b>'+(x.d>0?"+":"")+x.d+'</b></div>'}).join(""):'<p class="muted">Nenhuma ainda.</p>')}
+ return '<h2>Estoque</h2><div class="note">Os números ficam guardados neste aparelho. Produto “sem controle” não tem limite de pedidos; use Entrada para começar a controlar.</div>'+Object.keys(CATS).map(function(c){return '<h3>'+CATS[c].e+' '+CATS[c].t+'</h3>'+Object.keys(PROD).filter(function(k){return PROD[k].cat===c}).map(function(k){var s=ST[k];return '<div class="ln" style="flex-wrap:wrap;align-items:center"><span>'+esc(PROD[k].nome)+' <b style="color:var(--pink)">'+(s===undefined?(ESTOQUE_OBRIGATORIO?"fora de estoque":"sem controle"):(s<=0?"fora de estoque":s))+'</b></span><span><input id="q_'+k+'" type="number" min="1" value="1" style="width:64px;display:inline-block"> <button class="btn alt" style="padding:6px 12px" data-a="in" data-id="'+k+'">Entrada</button> <button class="btn alt" style="padding:6px 12px" data-a="sd" data-id="'+k+'">Saída</button> <button class="btn alt" style="padding:6px 12px" data-a="zero" data-id="'+k+'">Zerar</button></span></div>'}).join("")}).join("")+'<h3>Últimas movimentações</h3>'+(LOG.length?LOG.slice(0,12).map(function(x){return '<div class="ln"><span>'+esc(x.w)+' · '+esc(x.p)+'</span><b>'+(x.d>0?"+":"")+x.d+'</b></div>'}).join(""):'<p class="muted">Nenhuma ainda.</p>')}
 
 function menuHtml(){var th=TH?TH:(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
  var nav=[["inicio","Início"],["favoritos","Favoritos"],["salgados","Salgados"],["doces","Copos da Felicidade"],["brownies","Brownies"],["minivulcoes","Mini Vulcões"],["vulcao1kg","Vulcão de 1 kg"],["sobre","Sobre nós"],["contato","Contato"]];
@@ -284,6 +289,7 @@ document.addEventListener("click",function(e){var mp=$("#mp");if(!mp.hidden&&!e.
  else if(a==="sair"){user=null;sv("hs_user",null);chrome();toast("Você saiu da conta")}
  else if(a==="sc"){var r=b.closest("section").querySelector(".hs");r.scrollBy({left:(+id)*r.clientWidth*.8,behavior:"smooth"})}
  else if(a==="in"||a==="sd"){var q=parseInt($("#q_"+id).value,10);if(q>0){mov(id,a==="in"?q:-q,a==="in"?"Entrada":"Saída");openM(vEst());renderCat()}}
+ else if(a==="zero"){zero(id);openM(vEst());renderCat()}
  else if(a==="fin")fin();else if(a==="limpar"){cart={};sv("hs_cart",cart);document.querySelectorAll("[data-q]").forEach(function(x){x.textContent=0});sacola()}
  else if(a==="cp"){try{navigator.clipboard.writeText(PIX);b.textContent="Copiado!"}catch(x){}}
  else if(a==="qz"){window.open("https://wa.me/"+ZAP+"?text="+encodeURIComponent($("#qm").value||"Olá, Happy Sweet! Tenho uma dúvida."),"_blank")}});
